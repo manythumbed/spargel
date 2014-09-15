@@ -47,6 +47,6 @@ type line struct {
 
 // bezier is a cubic bezier. The curve starts at c0 and finishes at c3. c1 and c2
 // are the control points for the bezier.
-type bezier struct	{
+type bezier struct {
 	c0, c1, c2, c3 vector
 }
