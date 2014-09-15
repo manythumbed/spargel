@@ -21,14 +21,15 @@ func (c *Construction) Add(i Instruction) {
 
 type Point vector
 type Direction vector
+type Magnitude float64
 
 func (pt Point) Render(p Plotter) {
 	p.Move(pt)
 }
 
-func (pt Point) Project(d Direction, scale float64) Point {
+func (pt Point) Project(d Direction, scale Magnitude) Point {
 	a := vector(pt)
-	b := vector(d).unit().scale(scale)
+	b := vector(d).unit().scale(float64(scale))
 	v := a.add(b)
 
 	return Point{v.x, v.y}
@@ -39,23 +40,23 @@ func (a Point) To(b Point) Direction {
 	return Direction{v.x, v.y}
 }
 
-func (a Point) Between(b Point) float64 {
-	return vector(b).subtract(vector(a)).magnitude()
+func (a Point) Between(b Point) Magnitude {
+	return Magnitude(vector(b).subtract(vector(a)).magnitude())
 }
 
-func (pt Point) Left(scale float64) Point {
+func (pt Point) Left(scale Magnitude) Point {
 	return pt.Project(Direction(left), scale)
 }
 
-func (pt Point) Right(scale float64) Point {
+func (pt Point) Right(scale Magnitude) Point {
 	return pt.Project(Direction(right), scale)
 }
 
-func (pt Point) Up(scale float64) Point {
+func (pt Point) Up(scale Magnitude) Point {
 	return pt.Project(Direction(up), scale)
 }
 
-func (pt Point) Down(scale float64) Point {
+func (pt Point) Down(scale Magnitude) Point {
 	return pt.Project(Direction(down), scale)
 }
 
