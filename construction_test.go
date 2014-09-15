@@ -33,10 +33,10 @@ func TestConstruction(t *testing.T) {
 	p := &TextPlotter{}
 	c := Construction{"test 1", nil}
 
-	p1 := Point{0, 0}
-	p2 := Point{0, 1}
-	p3 := Point{1, 1}
-	p4 := Point{1, 0}
+	p1 := Point{0, -1}.Left(1)
+	p2 := p1.Up(1)
+	p3 := p2.Right(1)
+	p4 := p3.Down(1)
 
 	c.Add(p1)
 	c.Add(Line{p1, p2})
