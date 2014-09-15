@@ -1,6 +1,9 @@
 package geometry
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+)
 
 // Plotter maps points, lines and curves to a geometric construction
 type Plotter interface {
@@ -11,6 +14,21 @@ type Plotter interface {
 
 type Instruction interface {
 	Render(p Plotter)
+}
+
+type Construction struct {
+	Title        string
+	Instructions []Instruction
+}
+
+func (c Construction) Plot(p Plotter) {
+	for _, instruction := range c.Instructions {
+		instruction.Render(p)
+	}
+}
+
+func (c *Construction) Add(i Instruction) {
+	c.Instructions = append(c.Instructions, i)
 }
 
 type Point vector
@@ -51,4 +69,12 @@ func (t *TextPlotter) Line(start, end Point) {
 func (t *TextPlotter) Curve(start, c1, c2, end Point) {
 	t.Instructions = append(t.Instructions,
 		fmt.Sprintf("Curve from (%f, %f) to (%f, %f) with controls at (%f, %f) and (%f, %f)", start.x, start.y, end.x, end.y, c1.x, c1.y, c2.x, c2.y))
+}
+
+func (t TextPlotter) String() string {
+	buffer := &bytes.Buffer{}
+	for _, value := range t.Instructions {
+		fmt.Fprintf(buffer, "%s\n", value)
+	}
+	return buffer.String()
 }
