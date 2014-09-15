@@ -40,6 +40,6 @@ var down = vector{0, -1}
 var left = vector{-1, 0}
 var right = vector{1, 0}
 
-type line struct	{
+type line struct {
 	a, b vector
 }
