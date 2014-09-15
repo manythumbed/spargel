@@ -50,5 +50,5 @@ func (t *TextPlotter) Line(start, end Point) {
 
 func (t *TextPlotter) Curve(start, c1, c2, end Point) {
 	t.Instructions = append(t.Instructions,
-		fmt.Sprintf("Curve from (%f, %f) to (%f, %f) with controls at (%f, %f) and (%f, %f)", start.x, start.y, end.x, end.y))
+		fmt.Sprintf("Curve from (%f, %f) to (%f, %f) with controls at (%f, %f) and (%f, %f)", start.x, start.y, end.x, end.y, c1.x, c1.y, c2.x, c2.y))
 }
