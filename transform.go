@@ -22,3 +22,13 @@ func (s Scaling) Transform(p Point) Point {
 
 	return Point(v)
 }
+
+type Transformations []Transformer
+
+func (t Transformations) Transform(p Point) Point {
+	for _, value := range t {
+		p = value.Transform(p)
+	}
+
+	return p
+}

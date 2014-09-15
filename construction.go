@@ -19,6 +19,14 @@ func (c *Construction) Add(i Instruction) {
 	c.Instructions = append(c.Instructions, i)
 }
 
+func (c Construction) Transform(t Transformer) Construction {
+	return c
+}
+
+func (c Construction) Reverse() Construction {
+	return c
+}
+
 type Point vector
 type Direction vector
 type Magnitude float64
