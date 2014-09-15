@@ -27,7 +27,6 @@ func TestTextPlotter(t *testing.T) {
 	if len(text) <= 0 {
 		t.Errorf("String representation of plotter should be greater than 0")
 	}
-
 }
 
 func TestConstruction(t *testing.T) {

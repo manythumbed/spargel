@@ -39,7 +39,7 @@ func (a Point) To(b Point) Direction {
 	return Direction{v.x, v.y}
 }
 
-func (a Point) Between(b Point) float64	{
+func (a Point) Between(b Point) float64 {
 	return vector(b).subtract(vector(a)).magnitude()
 }
 
