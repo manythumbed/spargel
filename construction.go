@@ -27,9 +27,20 @@ func (pt Point) Render(p Plotter) {
 }
 
 func (pt Point) Project(d Direction, scale float64) Point {
-	v := vector(pt).add(vector(d).scale(scale))
+	a := vector(pt)
+	b := vector(d).unit().scale(scale)
+	v := a.add(b)
 
 	return Point{v.x, v.y}
+}
+
+func (a Point) To(b Point) Direction {
+	v := vector(b).subtract(vector(a)).unit()
+	return Direction{v.x, v.y}
+}
+
+func (a Point) Between(b Point) float64	{
+	return vector(b).subtract(vector(a)).magnitude()
 }
 
 func (pt Point) Left(scale float64) Point {

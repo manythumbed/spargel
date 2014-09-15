@@ -2,6 +2,7 @@ package geometry
 
 import (
 	"fmt"
+	"math"
 	"testing"
 )
 
@@ -48,5 +49,31 @@ func TestConstruction(t *testing.T) {
 
 	if len(p.Instructions) != 5 {
 		t.Errorf("Should have 5 instructions")
+	}
+}
+
+func TestProjection(t *testing.T) {
+	p1 := Point{2, 2}
+	p2 := p1.Up(2)
+
+	if p2.x != 2 && p2.y != 3 {
+		t.Errorf("BOOM")
+	}
+}
+
+func TestTo(t *testing.T) {
+	a := Point{1, 1}
+	b := Point{4, 4}
+
+	root2 := 1 / math.Sqrt(2)
+	d := Direction{root2, root2}
+	if a.To(b) != d {
+		t.Errorf("%v.To(%v) = %v, want %v", a, b, a.To(b), d)
+	}
+
+	d1 := a.Between(b)
+	b1 := a.Project(d, d1)
+	if b != b1 {
+		t.Errorf("%v.Project(%v, %v) = %v, want %v", a, d, d1, b1, b)
 	}
 }
