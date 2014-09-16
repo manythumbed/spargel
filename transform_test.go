@@ -41,3 +41,21 @@ func TestScaling(t *testing.T) {
 		}
 	}
 }
+
+func TestTransformations(t *testing.T) {
+	var data = []struct {
+		t    Transformations
+		in   Point
+		want Point
+	}{
+		{Transformations{Translation{Direction{2, 2}}, Scaling{Magnitude(0.5)}}, Point{1, 1}, Point{1.5, 1.5}},
+		{Transformations{Scaling{Magnitude(0.5)}, Translation{Direction{2, 2}}}, Point{1, 1}, Point{2.5, 2.5}},
+	}
+
+	for _, value := range data {
+		out := value.t.Transform(value.in)
+		if out != value.want {
+			t.Errorf("%v.Transform(%v) = %v, want %v", value.t, value.in, out, value.want)
+		}
+	}
+}
