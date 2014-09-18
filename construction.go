@@ -2,6 +2,7 @@ package geometry
 
 type Instruction interface {
 	Render(p Plotter)
+	Transform(t Transformer) Instruction
 }
 
 type Construction struct {
@@ -20,7 +21,11 @@ func (c *Construction) Add(i Instruction) {
 }
 
 func (c Construction) Transform(t Transformer) Construction {
-	return c
+	i := make([]Instruction, len(c.Instructions))
+	for index, value := range c.Instructions {
+		i[index] = value.Transform(t)
+	}
+	return Construction{c.Title, i}
 }
 
 func (c Construction) Reverse() Construction {
@@ -33,6 +38,10 @@ type Magnitude float64
 
 func (pt Point) Render(p Plotter) {
 	p.Move(pt)
+}
+
+func (p Point) Transform(t Transformer) Instruction {
+	return p
 }
 
 func (pt Point) Project(d Direction, scale Magnitude) Point {
@@ -76,10 +85,18 @@ func (l Line) Render(p Plotter) {
 	p.Line(l.Start, l.End)
 }
 
+func (l Line) Transform(t Transformer) Instruction {
+	return Line{t.Transform(l.Start), t.Transform(l.End)}
+}
+
 type Curve struct {
 	Start, C1, C2, End Point
 }
 
 func (c Curve) Render(p Plotter) {
 	p.Curve(c.Start, c.C1, c.C2, c.End)
+}
+
+func (c Curve) Transform(t Transformer) Instruction {
+	return Curve{t.Transform(c.Start), t.Transform(c.C1), t.Transform(c.C2), t.Transform(c.End)}
 }

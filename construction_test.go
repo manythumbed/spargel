@@ -3,6 +3,7 @@ package geometry
 import (
 	"fmt"
 	"math"
+	"reflect"
 	"testing"
 )
 
@@ -74,5 +75,28 @@ func TestTo(t *testing.T) {
 	b1 := a.Project(d, d1)
 	if b != b1 {
 		t.Errorf("%v.Project(%v, %v) = %v, want %v", a, d, d1, b1, b)
+	}
+}
+
+func TestTransform(t *testing.T) {
+	transform := Scaling{Magnitude(2)}
+	a := Point{0, 0}
+	a2 := transform.Transform(a)
+	b := Point{0, 10}
+	b2 := transform.Transform(b)
+
+	var data = []struct {
+		in        Construction
+		transform Transformer
+		want      Construction
+	}{
+		{Construction{"a", []Instruction{Line{a, b}}}, Scaling{Magnitude(2)}, Construction{"a", []Instruction{Line{a2, b2}}}},
+	}
+
+	for _, value := range data {
+		out := value.in.Transform(value.transform)
+		if !reflect.DeepEqual(out, value.want) {
+			t.Errorf("%v.Transform(%v) = %v, want %v", value.in, value.transform, out, value.want)
+		}
 	}
 }
